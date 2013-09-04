@@ -174,7 +174,16 @@ class bibhtmler {
 		'beforegrouptitle' => '<h4>',
 		'aftergrouptitle' => '</h4>',
 		'beforeall' => '<ul>',
-		'afterall' => '</ul>'
+		'afterall' => '</ul>',
+		'capitalisation' => 'Chicago'
+	);
+	
+	public $wordsnottocapitalise = array(
+		'a', 'abaft', 'aboard', 'about', 'above', 'absent', 'across', 'afore', 'after', 'against', 'along', 'alongside', 'amid', 'amidst', 'among', 'amongst', 'an', 'anenst', 'apropos', 'apud', 'around', 'as', 'aside', 'astride', 'at', 'athwart', 'atop',
+		'barring', 'before', 'behind',
+		'for',
+		'in',
+		'to'
 	);
 	
 	function __construct($useroptions = array()) {
@@ -210,8 +219,16 @@ class bibhtmler {
 	}
 
 	function processtitle($in) {
-		$out = $this->processtext($in);
-		return $out;
+		$words = $this->splitusing(substr($in, strpos($in, '{')+1, -1), ' ');
+		$out = '';
+		foreach ($words as $word) {
+			if ($word[0] == '{') $word = substr($word, strpos($word, '{')+1, -1);
+			else {
+				$word = strtolower($word);
+				if (!in_array($word, $this->wordsnottocapitalise))
+					$word = ucfirst($word);
+			} $out .= $word.' ';
+		} return $out;
 	}
 
 	function processauthors($in) {
