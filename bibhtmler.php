@@ -175,15 +175,33 @@ class bibhtmler {
 		'aftergrouptitle' => '</h4>',
 		'beforeall' => '<ul>',
 		'afterall' => '</ul>',
-		'capitalisation' => 'Chicago'
+		'capitalisation' => 'firstonly'
 	);
 	
 	public $wordsnottocapitalise = array(
-		'a', 'abaft', 'aboard', 'about', 'above', 'absent', 'across', 'afore', 'after', 'against', 'along', 'alongside', 'amid', 'amidst', 'among', 'amongst', 'an', 'anenst', 'apropos', 'apud', 'around', 'as', 'aside', 'astride', 'at', 'athwart', 'atop',
-		'barring', 'before', 'behind',
-		'for',
-		'in',
-		'to'
+		'headline' => array(
+			'a', 'abaft', 'aboard', 'about', 'above', 'absent', 'across', 'afore', 'after', 'against', 'along', 'alongside', 'amid', 'amidst', 'among', 'amongst', 'an', 'anenst', 'apropos', 'apud', 'around', 'as', 'aside', 'astride', 'at', 'athwart', 'atop',
+			'barring', 'before', 'behind', 'below', 'beneath', 'beside', 'besides', 'between', 'beyond', 'but', 'by', 
+			'c.', 'ca.', 'circa', 'concerning', 
+			'despite', 'down', 'during', 
+			'except', 'excluding', 
+			'failing', 'following', 'for', 'forenenst', 'from', 
+			'given', 
+			'in', 'including', 'inside', 'into', 
+			'lest', 'like', 
+			'mid', 'midst', 'minus', 'modulo',
+			'near', 'next', 'nigh', 'next', 'notwithstading',
+			'o\'', 'of', 'off', 'on', 'onto', 'opposite', 'out', 'outside', 'over',
+			'pace', 'past', 'per', 'plus', 'pro', 
+			'qua', 
+			'regarding', 'round',
+			'sans', 'save',
+			'since', 
+			'than', 'the', 'through', 'thru', 'throughout', 'till', 'times', 'to', 'toward', 'towards',
+			'under', 'underneath', 'unlike', 'until', 'unto', 'up', 'upon',
+			'versus', 'v.', 'vs.', 'via', 
+			'vice', 'with', 'within', 'without', 'worth'
+		)
 	);
 	
 	function __construct($useroptions = array()) {
@@ -222,13 +240,14 @@ class bibhtmler {
 		$words = $this->splitusing(substr($in, strpos($in, '{')+1, -1), ' ');
 		$out = '';
 		foreach ($words as $word) {
-			if ($word[0] == '{') $word = substr($word, strpos($word, '{')+1, -1);
+			if (strpos($word[0], '{') !== FALSE) $word = preg_replace('/[{}]/', '', $word);
 			else {
 				$word = strtolower($word);
-				if (!in_array($word, $this->wordsnottocapitalise))
+				if ($this->options['capitalisation'] == 'headline' and !in_array($word, $this->wordsnottocapitalise))
 					$word = ucfirst($word);
 			} $out .= $word.' ';
-		} return $out;
+		} if ($this->options['capitalisation'] == 'headline' or $this->options['capitalisation'] == 'firstonly') $out = ucfirst($out);
+		return $out;
 	}
 
 	function processauthors($in) {
