@@ -247,6 +247,7 @@ class bibhtmler {
 					$word = ucfirst($word);
 			} $out .= $word.' ';
 		} if ($this->options['capitalisation'] == 'headline' or $this->options['capitalisation'] == 'firstonly') $out = ucfirst($out);
+		$out = substr($out, 0, -1);
 		return $out;
 	}
 
@@ -606,6 +607,8 @@ class bibhtmler {
 			// Use keys for sorting
 			if ($this->options['order'] == 'inversechronological' or $this->options['order'] = 'chronological')
 				$docs[$newdoc['year'].$this->monthssortingorder[strtolower(preg_replace('/[{} ]/', '', $newdoc['month']))].$newdoc['key']] = $newdoc;
+			if ($this->options['order'] == 'class')
+				$docs[$newdoc['class']] = $newdoc;
 		}
 	
 		// Sort
@@ -629,6 +632,15 @@ class bibhtmler {
 					if ($thisgroup != '' and $this->options['aftergroup'] != '') echo($this->gettabs($grouptabs).$this->options['aftergroup']."\n");
 					echo($this->gettabs($this->options['tabs']).$this->options['beforegrouptitle'].$this->processtext($doc['year']).$this->options['aftergrouptitle']."\n");
 					$thisgroup = $this->processtext($doc['year']);
+					if ($this->options['beforegroup'] != '') echo($this->gettabs($grouptabs).$this->options['beforegroup']."\n");
+				}
+			}
+			
+			if ($this->options['groupby'] == 'class') {
+				if ($this->processtext($doc['class']) != $thisgroup) {
+					if ($thisgroup != '' and $this->options['aftergroup'] != '') echo($this->gettabs($grouptabs).$this->options['aftergroup']."\n");
+					echo($this->gettabs($this->options['tabs']).$this->options['beforegrouptitle'].$this->processtext($doc['class']).$this->options['aftergrouptitle']."\n");
+					$thisgroup = $this->processtext($doc['class']);
 					if ($this->options['beforegroup'] != '') echo($this->gettabs($grouptabs).$this->options['beforegroup']."\n");
 				}
 			}
