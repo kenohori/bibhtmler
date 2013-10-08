@@ -128,7 +128,9 @@ class bibhtmler {
 			'Edition' => 'Edition',
 			'and' => 'and',
 			'Slides' => 'Slides',
-			'PhD thesis' => 'PhD thesis'
+			'PhD thesis' => 'PhD thesis',
+			'Paper' => 'Paper',
+			'Poster' => 'Poster'
 		),
 		'es' => array(
 			'pp.' => 'pp.',
@@ -142,7 +144,9 @@ class bibhtmler {
 			'Edition' => 'edición',
 			'and' => 'y',
 			'Slides' => 'Presentaci&oacute;n',
-			'PhD thesis' => 'Tesis doctoral'
+			'PhD thesis' => 'Tesis doctoral',
+			'Paper' => 'Art&iacute;culo',
+			'Poster' => 'P&oacute;ster'
 		)
 	);
 
@@ -487,6 +491,8 @@ class bibhtmler {
 		if (array_key_exists('info', $in)) $out .= '<span class="text-danger"> '.$this->processtext($in['info']).'</span>.';
 		$out .= '<br>';
 		if (array_key_exists('pdf', $in)) $out .= ' <a href="'.$this->processtext($in['pdf']).'"><i class="icon-file-text-alt"></i> PDF</a>';
+		if (array_key_exists('paper', $in)) $out .= ' <a href="'.$this->processtext($in['paper']).'"><i class="icon-file-text-alt"></i> '.$this->localisedtext[$this->options['lang']]['Paper'].'</a>';
+		if (array_key_exists('poster', $in)) $out .= ' <a href="'.$this->processtext($in['poster']).'"><i class="icon-picture"></i> '.$this->localisedtext[$this->options['lang']]['Poster'].'</a>';
 		if (array_key_exists('presentation', $in)) $out .= ' <a href="'.$this->processtext($in['presentation']).'"><i class="icon-picture"></i> '.$this->localisedtext[$this->options['lang']]['Slides'].'</a>';
 		if (array_key_exists('doi', $in)) $out .= ' <a href="'.$this->processtext($in['doi']).'"><i class="icon-external-link"></i> DOI</a>';
 		$out .= ' <a href="#bib'.$in['key'].'" data-toggle="collapse"><i class="icon-collapse"></i> BibTeX</a>';
