@@ -424,12 +424,12 @@ class bibhtmler {
 				break;
 			
 			case 'misc':
-				if (array_key_exists('title', $in)) $outwhat .= processtitle($in['title']);
-				if (array_key_exists('author', $in)) $outwho .= processauthors($in['author']);
-				if (array_key_exists('howpublished', $in)) $outwhere[] .= '<em>'.processtext($in['howpublished']).'</em>';
-				if (array_key_exists('month', $in) and array_key_exists('year', $in)) $outwhere[] = processmonth($in['month'])." ".processtext($in['year']);
-				else if (array_key_exists('year', $in)) $outwhere[] = processtext($in['year']);
-				if (array_key_exists('note', $in)) $outnote .= processtext($in['note']);
+				if (array_key_exists('title', $in)) $outwhat .= $this->processtitle($in['title']);
+				if (array_key_exists('author', $in)) $outwho .= $this->processauthors($in['author']);
+				if (array_key_exists('howpublished', $in)) $outwhere[] .= '<em>'.$this->processtext($in['howpublished']).'</em>';
+				if (array_key_exists('month', $in) and array_key_exists('year', $in)) $outwhere[] = $this->processmonth($in['month'])." ".$this->processtext($in['year']);
+				else if (array_key_exists('year', $in)) $outwhere[] = $this->processtext($in['year']);
+				if (array_key_exists('note', $in)) $outnote .= $this->processtext($in['note']);
 				break;
 			
 			case 'phdthesis':
