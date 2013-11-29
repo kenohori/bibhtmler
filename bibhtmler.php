@@ -536,7 +536,17 @@ class bibhtmler {
 			'/\\\\\`O/',
 			'/\\\\\`U/',
 			'/\\\\~n/',
-			'/\\\\~N/'
+			'/\\\\~N/',
+			'/\\\\"a/',
+			'/\\\\"e/',
+			'/\\\\"i/',
+			'/\\\\"o/',
+			'/\\\\"u/',
+			'/\\\\"A/',
+			'/\\\\"E/',
+			'/\\\\"I/',
+			'/\\\\"O/',
+			'/\\\\"U/'
 		);
 		$replacements = array(
 			'—',
@@ -572,7 +582,17 @@ class bibhtmler {
 			'Ò',
 			'Ù',
 			'ñ',
-			'Ñ'
+			'Ñ',
+			'ä',
+			'ë',
+			'ï',
+			'ö',
+			'ü',
+			'Ä',
+			'Ë',
+			'Ï',
+			'Ö',
+			'Ü'
 		);
 		$out = trim(preg_replace('/[{}]/', '', $in), ' ');
 		$out = htmlentities(preg_replace($patterns, $replacements, $out), ENT_COMPAT, 'UTF-8');
