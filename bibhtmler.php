@@ -314,19 +314,19 @@ class bibhtmler {
 			
 			case 'book':
 				$outwhat .= $this->processtitle($in['title']);
-				if (array_key_exists('author', $in)) $outwho .= processauthors($in['author']);
-				else $outwho .= processauthors($in['editor']);
+				if (array_key_exists('author', $in)) $outwho .= $this->processauthors($in['author']);
+				else $outwho .= $this->processauthors($in['editor']);
 				if (array_key_exists('series', $in)) {
 					if (array_key_exists('volume', $in)) $outwhere[] = $this->localisedtext[$this->options['lang']]['Volume'].' '.$this->processtext($in['volume']).' '.$this->localisedtext[$this->options['lang']]['of'].' '.$this->processtext($in['series']);
 					else $outwhere[] = $this->processtext($in['series']);
 					if (array_key_exists('number', $in)) $outwhere[count($outwhere)-1] .= $this->processtext($in['number']);
-				} if (array_key_exists('author', $in) and array_key_exists('editor', $in)) $outwhere[] = processauthors($in['editor'])." (".$this->localisedtext[$this->options['lang']]['eds.'].")";
+				} if (array_key_exists('author', $in) and array_key_exists('editor', $in)) $outwhere[] = $this->processauthors($in['editor'])." (".$this->localisedtext[$this->options['lang']]['eds.'].")";
 				$outwhere[] = $this->processtext($in['publisher']);
 				if (array_key_exists('edition', $in)) $outwhere[] = $this->processtest($in['edition']).' '.$this->localisedtext[$this->options['lang']]['Edition'];
 				if (array_key_exists('address', $in)) $outwhere[] = $this->processtext($in['address']);
 				if (array_key_exists('month', $in)) $outwhere[] = $this->processmonth($in['month'])." ".$this->processtext($in['year']);
 				else $outwhere[] = $this->processtext($in['year']);
-				if (array_key_exists('note', $in)) $outnote .= processtext($in['note']);
+				if (array_key_exists('note', $in)) $outnote .= $this->processtext($in['note']);
 				break;
 			
 			case 'booklet':
