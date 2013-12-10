@@ -546,7 +546,8 @@ class bibhtmler {
 			'/\\\\"E/',
 			'/\\\\"I/',
 			'/\\\\"O/',
-			'/\\\\"U/'
+			'/\\\\"U/',
+			'/\\\\&/'
 		);
 		$replacements = array(
 			'—',
@@ -592,7 +593,8 @@ class bibhtmler {
 			'Ë',
 			'Ï',
 			'Ö',
-			'Ü'
+			'Ü',
+			'&'
 		);
 		$out = trim(preg_replace('/[{}]/', '', $in), ' ');
 		$out = htmlentities(preg_replace($patterns, $replacements, $out), ENT_COMPAT, 'UTF-8');
