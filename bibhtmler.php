@@ -490,12 +490,12 @@ class bibhtmler {
 		
 		if (array_key_exists('info', $in)) $out .= '<span class="text-danger"> '.$this->processtext($in['info']).'</span>.';
 		$out .= '<br>';
-		if (array_key_exists('pdf', $in)) $out .= ' <a href="'.$this->processtext($in['pdf']).'"><i class="icon-file-text-alt"></i> PDF</a>';
-		if (array_key_exists('paper', $in)) $out .= ' <a href="'.$this->processtext($in['paper']).'"><i class="icon-file-text-alt"></i> '.$this->localisedtext[$this->options['lang']]['Paper'].'</a>';
-		if (array_key_exists('poster', $in)) $out .= ' <a href="'.$this->processtext($in['poster']).'"><i class="icon-picture"></i> '.$this->localisedtext[$this->options['lang']]['Poster'].'</a>';
-		if (array_key_exists('presentation', $in)) $out .= ' <a href="'.$this->processtext($in['presentation']).'"><i class="icon-picture"></i> '.$this->localisedtext[$this->options['lang']]['Slides'].'</a>';
-		if (array_key_exists('doi', $in)) $out .= ' <a href="'.$this->processtext($in['doi']).'"><i class="icon-external-link"></i> DOI</a>';
-		$out .= ' <a href="#bib'.$in['key'].'" data-toggle="collapse"><i class="icon-collapse"></i> BibTeX</a>';
+		if (array_key_exists('pdf', $in)) $out .= ' <a href="'.$this->processtext($in['pdf']).'"><i class="fa fa-file-text-o"></i> PDF</a>';
+		if (array_key_exists('paper', $in)) $out .= ' <a href="'.$this->processtext($in['paper']).'"><i class="fa fa-file-text-o"></i> '.$this->localisedtext[$this->options['lang']]['Paper'].'</a>';
+		if (array_key_exists('poster', $in)) $out .= ' <a href="'.$this->processtext($in['poster']).'"><i class="fa fa-picture-o"></i> '.$this->localisedtext[$this->options['lang']]['Poster'].'</a>';
+		if (array_key_exists('presentation', $in)) $out .= ' <a href="'.$this->processtext($in['presentation']).'"><i class="fa fa-picture-o"></i> '.$this->localisedtext[$this->options['lang']]['Slides'].'</a>';
+		if (array_key_exists('doi', $in)) $out .= ' <a href="'.$this->processtext($in['doi']).'"><i class="fa fa-external-link"></i> DOI</a>';
+		$out .= ' <a href="#bib'.$in['key'].'" data-toggle="collapse"><i class="fa fa-caret-square-o-down"></i> BibTeX</a>';
 		$out .= '<div id="bib'.$in['key'].'" class="collapse"  tabindex="-1"><pre>'.$this->getbibtex($in)."</pre></div>";
 	
 		return $out;
