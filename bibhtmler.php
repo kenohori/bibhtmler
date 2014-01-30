@@ -495,6 +495,7 @@ class bibhtmler {
 		if (array_key_exists('poster', $in)) $out .= ' <a href="'.$this->processtext($in['poster']).'"><i class="fa fa-picture-o"></i> '.$this->localisedtext[$this->options['lang']]['Poster'].'</a>';
 		if (array_key_exists('presentation', $in)) $out .= ' <a href="'.$this->processtext($in['presentation']).'"><i class="fa fa-picture-o"></i> '.$this->localisedtext[$this->options['lang']]['Slides'].'</a>';
 		if (array_key_exists('doi', $in)) $out .= ' <a href="'.$this->processtext($in['doi']).'"><i class="fa fa-external-link"></i> DOI</a>';
+		if (array_key_exists('url', $in)) $out .= ' <a href="'.$this->processtext($in['url']).'"><i class="fa fa-external-link"></i> WWW</a>';
 		$out .= ' <a href="#bib'.$in['key'].'" data-toggle="collapse"><i class="fa fa-caret-square-o-down"></i> BibTeX</a>';
 		$out .= '<div id="bib'.$in['key'].'" class="collapse"  tabindex="-1"><pre>'.$this->getbibtex($in)."</pre></div>";
 	
@@ -547,7 +548,21 @@ class bibhtmler {
 			'/\\\\"I/',
 			'/\\\\"O/',
 			'/\\\\"U/',
-			'/\\\\&/'
+			'/\\\\&/',
+			'/\\\\vc/',
+			'/\\\\vC/',
+			'/\\\\vD/',
+			'/\\\\ve/',
+			'/\\\\vE/',
+			'/\\\\vn/',
+			'/\\\\vN/',
+			'/\\\\vr/',
+			'/\\\\vR/',
+			'/\\\\vs/',
+			'/\\\\vS/',
+			'/\\\\vT/',
+			'/\\\\vz/',
+			'/\\\\vZ/'
 		);
 		$replacements = array(
 			'—',
@@ -594,7 +609,21 @@ class bibhtmler {
 			'Ï',
 			'Ö',
 			'Ü',
-			'&'
+			'&',
+			'č',
+			'Č',
+			'Ď',
+			'ě',
+			'Ě',
+			'ň',
+			'Ň',
+			'ř',
+			'Ř',
+			'š',
+			'Š',
+			'Ť',
+			'ž',
+			'Ž'
 		);
 		$out = trim(preg_replace('/[{}]/', '', $in), ' ');
 		$out = htmlentities(preg_replace($patterns, $replacements, $out), ENT_COMPAT, 'UTF-8');
