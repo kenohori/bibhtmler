@@ -662,9 +662,10 @@ class bibhtmler {
 			} 
 			
 			// Use keys for sorting
-			if ($this->options['order'] == 'inversechronological' or $this->options['order'] = 'chronological')
-				$docs[$newdoc['year'].$this->monthssortingorder[strtolower(preg_replace('/[{} ]/', '', $newdoc['month']))].$newdoc['key']] = $newdoc;
-			if ($this->options['order'] == 'class')
+			if ($this->options['order'] == 'inversechronological' or $this->options['order'] = 'chronological') {
+				if isset($newdoc['month']) $docs[$newdoc['year'].$this->monthssortingorder[strtolower(preg_replace('/[{} ]/', '', $newdoc['month']))].$newdoc['key']] = $newdoc;
+				else $docs[$newdoc['year']."00".$newdoc['key']] = $newdoc;
+			} if ($this->options['order'] == 'class')
 				$docs[$newdoc['class']] = $newdoc;
 		}
 	
