@@ -1,7 +1,7 @@
 <?php
 
 /*
-Copyright (c) 2013, Ken Arroyo Ohori
+Copyright (c) 2013-2014, Ken Arroyo Ohori
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -168,17 +168,17 @@ class bibhtmler {
 	
 	public $options = array(
 		'lang' => 'en',
-		'beforeentry' => '<li>',
-		'afterentry' => '</li>',
+		'beforeentry' => '<p>',
+		'afterentry' => '</p>',
 		'tabs' => 5,
 		'groupby' => '',
 		'order' => 'inversechronological',
 		'beforegroup' => '',
 		'aftergroup' => '',
-		'beforegrouptitle' => '<h4>',
-		'aftergrouptitle' => '</h4>',
-		'beforeall' => '<ul>',
-		'afterall' => '</ul>',
+		'beforegrouptitle' => '<h3>',
+		'aftergrouptitle' => '</h3>',
+		'beforeall' => '',
+		'afterall' => '',
 		'capitalisation' => 'firstonly'
 	);
 	
@@ -217,8 +217,8 @@ class bibhtmler {
 		if ($this->options['groupby'] != '' and !isset($useroptions['beforeall']) and !isset($useroptions['afterall'])) {
 			$this->options['beforeall'] = '';
 			$this->options['afterall'] = '';
-			$this->options['beforegroup'] = '<ul>';
-			$this->options['aftergroup'] = '</ul>';
+			$this->options['beforegroup'] = '';
+			$this->options['aftergroup'] = '';
 		}
 	}
 
@@ -490,10 +490,10 @@ class bibhtmler {
 		
 		if (array_key_exists('info', $in)) $out .= '<span class="text-danger"> '.$this->processtext($in['info']).'</span>.';
 		$out .= '<br>';
-		if (array_key_exists('pdf', $in)) $out .= ' <a href="'.$this->processtext($in['pdf']).'"><i class="fa fa-file-text-o"></i> PDF</a>';
-		if (array_key_exists('paper', $in)) $out .= ' <a href="'.$this->processtext($in['paper']).'"><i class="fa fa-file-text-o"></i> '.$this->localisedtext[$this->options['lang']]['Paper'].'</a>';
-		if (array_key_exists('poster', $in)) $out .= ' <a href="'.$this->processtext($in['poster']).'"><i class="fa fa-picture-o"></i> '.$this->localisedtext[$this->options['lang']]['Poster'].'</a>';
-		if (array_key_exists('presentation', $in)) $out .= ' <a href="'.$this->processtext($in['presentation']).'"><i class="fa fa-picture-o"></i> '.$this->localisedtext[$this->options['lang']]['Slides'].'</a>';
+		if (array_key_exists('pdf', $in)) $out .= ' <a href="'.$this->processtext($in['pdf']).'"><i class="fa fa-file-pdf-o"></i> PDF</a>';
+		if (array_key_exists('paper', $in)) $out .= ' <a href="'.$this->processtext($in['paper']).'"><i class="fa fa-file-pdf-o"></i> '.$this->localisedtext[$this->options['lang']]['Paper'].'</a>';
+		if (array_key_exists('poster', $in)) $out .= ' <a href="'.$this->processtext($in['poster']).'"><i class="fa fa-file-image-o"></i> '.$this->localisedtext[$this->options['lang']]['Poster'].'</a>';
+		if (array_key_exists('presentation', $in)) $out .= ' <a href="'.$this->processtext($in['presentation']).'"><i class="fa fa-file-image-o"></i> '.$this->localisedtext[$this->options['lang']]['Slides'].'</a>';
 		if (array_key_exists('doi', $in)) $out .= ' <a href="'.$this->processtext($in['doi']).'"><i class="fa fa-external-link"></i> DOI</a>';
 		if (array_key_exists('url', $in)) $out .= ' <a href="'.$this->processtext($in['url']).'"><i class="fa fa-external-link"></i> WWW</a>';
 		$out .= ' <a href="#bib'.$in['key'].'" data-toggle="collapse"><i class="fa fa-caret-square-o-down"></i> BibTeX</a>';
@@ -663,7 +663,7 @@ class bibhtmler {
 			
 			// Use keys for sorting
 			if ($this->options['order'] == 'inversechronological' or $this->options['order'] = 'chronological') {
-				if isset($newdoc['month']) $docs[$newdoc['year'].$this->monthssortingorder[strtolower(preg_replace('/[{} ]/', '', $newdoc['month']))].$newdoc['key']] = $newdoc;
+				if (isset($newdoc['month'])) $docs[$newdoc['year'].$this->monthssortingorder[strtolower(preg_replace('/[{} ]/', '', $newdoc['month']))].$newdoc['key']] = $newdoc;
 				else $docs[$newdoc['year']."00".$newdoc['key']] = $newdoc;
 			} if ($this->options['order'] == 'class')
 				$docs[$newdoc['class']] = $newdoc;
