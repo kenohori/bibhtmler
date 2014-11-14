@@ -244,11 +244,15 @@ class bibhtmler {
 		$words = $this->splitusing(substr($in, strpos($in, '{')+1, -1), ' ');
 		$out = '';
 		foreach ($words as $word) {
-			if (strpos($word[0], '{') !== FALSE) $word = preg_replace('/[{}]/', '', $word);
-			else {
+			if (strpos($word, '{') !== FALSE) {
+				$word = preg_replace('/[{}]/', '', $word);
+				$word = $this->processtext($word);
+			} else {
 				$word = strtolower($word);
-				if ($this->options['capitalisation'] == 'headline' and !in_array($word, $this->wordsnottocapitalise))
+				if ($this->options['capitalisation'] == 'headline' and !in_array($word, $this->wordsnottocapitalise)) {
+					$word = $this->processtext($word);
 					$word = ucfirst($word);
+				}
 			} $out .= $word.' ';
 		} if ($this->options['capitalisation'] == 'headline' or $this->options['capitalisation'] == 'firstonly') $out = ucfirst($out);
 		$out = substr($out, 0, -1);
@@ -562,7 +566,13 @@ class bibhtmler {
 			'/\\\\vS/',
 			'/\\\\vT/',
 			'/\\\\vz/',
-			'/\\\\vZ/'
+			'/\\\\vZ/',
+			'/\\\\cc/',
+			'/\\\\cC/',
+			'/``/',
+			'/`/',
+			'/\'\'/',
+			'/\'/'
 		);
 		$replacements = array(
 			'—',
@@ -623,7 +633,13 @@ class bibhtmler {
 			'Š',
 			'Ť',
 			'ž',
-			'Ž'
+			'Ž',
+			'ç',
+			'Ç',
+			'“',
+			'‘',
+			'”',
+			'’'
 		);
 		$out = trim(preg_replace('/[{}]/', '', $in), ' ');
 		$out = htmlentities(preg_replace($patterns, $replacements, $out), ENT_COMPAT, 'UTF-8');
@@ -638,6 +654,7 @@ class bibhtmler {
 	}
 
 	function process($filename, $select = false) {
+		$result = "";
 		$file = fopen($filename, 'r');
 		$contents = fread($file, filesize($filename));
 		fclose($file);
@@ -681,34 +698,35 @@ class bibhtmler {
 		if ($this->options['beforegroup'] != '' or $this->options['aftergroup'] != '') $entrytabs++;
 	
 		// Print things
-		if ($this->options['beforeall'] != '') echo($this->gettabs($this->options['tabs']).$this->options['beforeall']."\n");
+		if ($this->options['beforeall'] != '') $result .= $this->gettabs($this->options['tabs']).$this->options['beforeall']."\n";
 		foreach($docs as $doc) {
 		
 			// Group stuff
 			if ($this->options['groupby'] == 'year') {
 				if ($this->processtext($doc['year']) != $thisgroup) {
-					if ($thisgroup != '' and $this->options['aftergroup'] != '') echo($this->gettabs($grouptabs).$this->options['aftergroup']."\n");
-					echo($this->gettabs($this->options['tabs']).$this->options['beforegrouptitle'].$this->processtext($doc['year']).$this->options['aftergrouptitle']."\n");
+					if ($thisgroup != '' and $this->options['aftergroup'] != '') $result .= $this->gettabs($grouptabs).$this->options['aftergroup']."\n";
+					$result .= $this->gettabs($this->options['tabs']).$this->options['beforegrouptitle'].$this->processtext($doc['year']).$this->options['aftergrouptitle']."\n";
 					$thisgroup = $this->processtext($doc['year']);
-					if ($this->options['beforegroup'] != '') echo($this->gettabs($grouptabs).$this->options['beforegroup']."\n");
+					if ($this->options['beforegroup'] != '') $result .= $this->gettabs($grouptabs).$this->options['beforegroup']."\n";
 				}
 			}
 			
 			if ($this->options['groupby'] == 'class') {
 				if ($this->processtext($doc['class']) != $thisgroup) {
-					if ($thisgroup != '' and $this->options['aftergroup'] != '') echo($this->gettabs($grouptabs).$this->options['aftergroup']."\n");
-					echo($this->gettabs($this->options['tabs']).$this->options['beforegrouptitle'].$this->processtext($doc['class']).$this->options['aftergrouptitle']."\n");
+					if ($thisgroup != '' and $this->options['aftergroup'] != '') $result .= $this->gettabs($grouptabs).$this->options['aftergroup']."\n";
+					$result .= $this->gettabs($this->options['tabs']).$this->options['beforegrouptitle'].$this->processtext($doc['class']).$this->options['aftergrouptitle']."\n";
 					$thisgroup = $this->processtext($doc['class']);
-					if ($this->options['beforegroup'] != '') echo($this->gettabs($grouptabs).$this->options['beforegroup']."\n");
+					if ($this->options['beforegroup'] != '') $result .= $this->gettabs($grouptabs).$this->options['beforegroup']."\n";
 				}
 			}
 			
 			// Actual entry
-			echo($this->gettabs($entrytabs).$this->options['beforeentry'].$this->processentry($doc).$this->options['afterentry']."\n");
+			$result .= $this->gettabs($entrytabs).$this->options['beforeentry'].$this->processentry($doc).$this->options['afterentry']."\n";
 		
 		} if ($this->options['groupby'] != '' and $this->options['aftergroup'] != '')
-			echo($this->gettabs($grouptabs).$this->options['aftergroup']."\n");
-		if ($this->options['afterall'] != '') echo($this->gettabs($this->options['tabs']).$this->options['afterall']."\n");
+			$result .= $this->gettabs($grouptabs).$this->options['aftergroup']."\n";
+		if ($this->options['afterall'] != '') $result .= $this->gettabs($this->options['tabs']).$this->options['afterall']."\n";
+		return $result;
 	}
 }
 
