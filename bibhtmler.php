@@ -789,7 +789,7 @@ class bibhtmler {
 			}
 			
 			// Actual entry
-			$result .= $dockey." = ";
+			// $result .= $dockey." = ";
 			$result .= $this->gettabs($entrytabs).$this->options['beforeentry'].$this->processentry($doc).$this->options['afterentry']."\n";
 		
 		} if ($this->options['groupby'] != '' and $this->options['aftergroup'] != '')
